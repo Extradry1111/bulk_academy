@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BULK Academy: Master Decentralized Trading</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header id="header">
+        <div class="logo-container" onclick="showSection('home')">
+            <img src="logo.png" alt="BULK Logo" class="logo-img" onerror="this.style.display='none'">
+            <span class="logo-text">BULK Academy</span>
+        </div>
+        <nav>
+            <a href="#" data-section="home" class="nav-item active">Home</a>
+            <a href="#" data-section="lessons" class="nav-item">Lessons</a>
+            <a href="#" data-section="flashcards" class="nav-item">Glossary</a>
+            <a href="#" data-section="library" class="nav-item">Documentation</a>
+            <a href="#" data-section="certificate" class="nav-item">Certificate</a>
+        </nav>
+        <div class="header-streak">
+            <i class="fas fa-fire streak-icon-small"></i>
+            <span id="current-streak-header">0 Days</span>
+        </div>
+    </header>
+
+    <main id="app-container">
+
+        <!-- HOME SECTION -->
+        <section id="home" class="content-section active">
+            <div class="hero-section section-card">
+                <h1>Master Institutional-Grade Decentralized Trading</h1>
+                <p>Learn the architecture, mechanics, and advanced strategies of BULK Exchange—where performance meets decentralization. One Exchange. Infinite Markets.</p>
+                <button class="cta-button" onclick="showSection('lessons')">Start Learning Now</button>
+            </div>
+
+            <div class="progress-stats section-card">
+                <h2>Your Trading Education Journey</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <h3>Overall Progress</h3>
+                        <div class="progress-bar-container">
+                            <div id="overall-progress-bar" class="progress-bar" style="width: 0%;"></div>
+                        </div>
+                        <span id="progress-percent">0% Completed (0/6 Lessons Passed)</span>
+                    </div>
+                    <div class="stat-box">
+                        <h3>Learning Streak</h3>
+                        <i class="fas fa-fire streak-icon"></i>
+                        <span id="current-streak">0 Days</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mini-game-container section-card">
+                <h2>Interactive Demo: Open Your First Perpetual</h2>
+                <p>Experience real perpetual trading with long/short positions and live PnL calculations.</p>
+                <button class="learn-more-button cta-button" onclick="openPerpSimulator()">Launch Trading Simulator</button>
+            </div>
+        </section>
+
+        <!-- LESSONS SECTION -->
+        <section id="lessons" class="content-section hidden">
+            <h1>BULK Trading Academy Curriculum</h1>
+            <div id="lessons-list" class="grid-container"></div>
+        </section>
+
+        <!-- LESSON VIEWER -->
+        <section id="lesson-viewer" class="content-section hidden">
+            <button class="back-button" onclick="showSection('lessons')"><i class="fas fa-arrow-left"></i> Back to Lessons</button>
+            <h2 id="lesson-title"></h2>
+            
+            <div class="lesson-content-wrapper section-card">
+                <div class="lesson-progress-bar-container">
+                    <span class="progress-label">Read Progress: <span id="read-progress-percent">0%</span></span>
+                    <div id="lesson-read-progress" class="progress-bar lesson-bar-small" style="width: 0%;"></div>
+                </div>
+                
+                <div id="lesson-content-display"></div>
+
+                <div id="lesson-navigation-footer" class="hidden">
+                    <button id="next-lesson-btn" class="cta-button">Go to Next Lesson <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div id="quiz-area" class="quiz-container hidden section-card">
+                <h3>Quiz Time!</h3>
+                <p>Answer each question step-by-step. You need 4 out of 5 correct to pass and advance.</p>
+                
+                <div id="quiz-progress-info">
+                    <span id="quiz-step-indicator">Question 1 of 5</span>
+                </div>
+
+                <div id="quiz-question-display"></div>
+
+                <div id="quiz-navigation">
+                    <button id="quiz-next-btn" class="cta-button">Next Question</button>
+                </div>
+
+                <div id="quiz-results" class="hidden">
+                    <h3>Quiz Results</h3>
+                    <p id="quiz-score"></p>
+                    <div id="quiz-review"></div>
+                    <div id="quiz-hints"></div>
+                    <div class="quiz-result-actions">
+                        <button id="retry-quiz-btn" class="cta-button hidden">Retry Quiz</button>
+                        <button id="finish-quiz-btn" class="cta-button hidden">Back to Lessons</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FLASHCARDS SECTION -->
+        <section id="flashcards" class="content-section hidden">
+            <h1>Trading Terminology & Concepts</h1>
+            <p>Master BULK's core trading vocabulary. Click any card to reveal definitions.</p>
+            <div id="flashcard-grid" class="grid-container"></div>
+        </section>
+
+        <!-- LIBRARY SECTION -->
+        <section id="library" class="content-section hidden">
+            <h1>BULK Technical Documentation</h1>
+            <p>Deep dive into architecture, systems, and advanced features.</p>
+            <div id="library-content"></div>
+        </section>
+        
+        <!-- CERTIFICATE SECTION -->
+        <section id="certificate" class="content-section hidden">
+            <h1>Your Trading Certification</h1>
+            <div id="certificate-status" class="section-card">
+                <p id="certificate-message">Complete all 6 lessons and quizzes to earn your BULK Academy Certification!</p>
+                <img id="certificate-display" src="certificate.png" alt="BULK Academy Certificate" class="certificate-img hidden" onerror="this.style.display='none'">
+                <button id="download-certificate" class="cta-button hidden">Download Certificate</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PERPETUAL TRADING SIMULATOR MODAL -->
+    <div id="perp-simulator-modal" class="modal hidden">
+        <div class="modal-content section-card trading-simulator">
+            <span class="modal-close" onclick="closePerpSimulator()">&times;</span>
+            <h2>Perpetual Trading Simulator</h2>
+            <p>Open a position, watch the price move, and see your PnL update in real-time</p>
+            
+            <div class="simulator-container">
+                <!-- Position Setup -->
+                <div id="position-setup" class="setup-phase">
+                    <div class="setup-grid">
+                        <div class="setup-input">
+                            <label>Entry Price (USD)</label>
+                            <input type="number" id="entry-price" value="50000" min="1000" step="100">
+                        </div>
+                        <div class="setup-input">
+                            <label>Position Size (BTC)</label>
+                            <input type="number" id="position-size" value="0.1" min="0.001" step="0.001">
+                        </div>
+                        <div class="setup-input">
+                            <label>Leverage</label>
+                            <select id="leverage">
+                                <option value="1">1x</option>
+                                <option value="2">2x</option>
+                                <option value="5">5x</option>
+                                <option value="10" selected>10x</option>
+                                <option value="15">15x</option>
+                                <option value="20">20x</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="position-type">
+                        <button id="long-btn" class="position-btn long active" onclick="selectPosition('long')">
+                            <i class="fas fa-arrow-up"></i> LONG
+                        </button>
+                        <button id="short-btn" class="position-btn short" onclick="selectPosition('short')">
+                            <i class="fas fa-arrow-down"></i> SHORT
+                        </button>
+                    </div>
+
+                    <button class="cta-button open-position-btn" onclick="openPosition()">
+                        <i class="fas fa-plus-circle"></i> Open Position
+                    </button>
+                </div>
+
+                <!-- Active Trading -->
+                <div id="trading-phase" class="trading-phase hidden">
+                    <div class="trading-header">
+                        <div class="price-info">
+                            <div class="info-item">
+                                <span class="label">Entry Price</span>
+                                <span id="display-entry" class="value">\$50,000</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Current Price</span>
+                                <span id="current-price-display" class="value">\$50,000</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Mark Price</span>
+                                <span id="mark-price-display" class="value">\$50,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Chart -->
+                    <div class="chart-container">
+                        <canvas id="price-chart"></canvas>
+                    </div>
+
+                    <!-- Position Stats -->
+                    <div class="position-stats">
+                        <div class="stat-row">
+                            <span class="stat-label">Position Type:</span>
+                            <span id="position-type-display" class="stat-value long">LONG</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Size:</span>
+                            <span id="size-display" class="stat-value">0.1 BTC</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Leverage:</span>
+                            <span id="leverage-display" class="stat-value">10x</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Initial Margin:</span>
+                            <span id="initial-margin-display" class="stat-value">$500</span>
+                        </div>
+                    </div>
+
+                    <!-- PnL Display -->
+                    <div id="pnl-container" class="pnl-container">
+                        <div class="pnl-box">
+                            <span class="pnl-label">Unrealized PnL</span>
+                            <span id="pnl-display" class="pnl-value">+\$0.00</span>
+                            <span id="pnl-percent" class="pnl-percent">+0.00%</span>
+                        </div>
+                    </div>
+
+                    <!-- Liquidation Risk -->
+                    <div class="liquidation-info">
+                        <div class="liquidation-row">
+                            <span class="liquidation-label">Liquidation Price:</span>
+                            <span id="liquidation-price" class="liquidation-value">\$45,000</span>
+                        </div>
+                        <div class="liquidation-bar-container">
+                            <div id="liquidation-bar" class="liquidation-bar"></div>
+                        </div>
+                        <div class="liquidation-row">
+                            <span class="liquidation-label">Distance:</span>
+                            <span id="distance-to-liq" class="liquidation-value">-10.00%</span>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="trading-controls">
+                        <button class="control-btn" onclick="closePerpSimulator()">
+                            <i class="fas fa-times"></i> Close Simulator
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lesson-completed-notification" class="notification hidden">
+        <span id="completed-message">Lesson X Completed!</span>
+    </div>
+
+    <footer id="footer">
+        <p>BULK Academy made by @yaaaori | Learn decentralized high-frequency trading | Visit <a href="https://bulk.trade" target="_blank" rel="noopener">bulk.trade</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
